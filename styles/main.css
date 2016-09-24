@@ -1,0 +1,13 @@
+/*
+ * Those styles will override anything
+ */
+
+.mdl-layout__header-row {
+  height: 45px;
+  line-height: 45px;
+}
+
+.mdl-layout__header-row .mdl-navigation__link {
+  height: 45px;
+  line-height: 45px;
+}

@@ -1,0 +1,18 @@
+.container {
+  position: absolute;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  top: 50px;
+  padding: 0;
+}
+
+.editor {
+  height: calc(100% - 60px);
+}
+
+.mergeBtn {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+}

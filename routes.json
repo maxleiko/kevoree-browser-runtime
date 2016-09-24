@@ -1,0 +1,30 @@
+[
+  {
+    "path": "/",
+    "page": "./pages/home",
+    "chunk": "main"
+  },
+  {
+    "path": "/bootstrap",
+    "page": "./pages/bootstrap",
+    "chunk": "main"
+  },
+  {
+    "path": "/runtime",
+    "page": "./pages/runtime",
+    "chunk": "main"
+  },
+  {
+    "path": "/error",
+    "page": "./pages/error",
+    "chunk": "main"
+  },
+  {
+    "path": "/about",
+    "page": "./pages/about"
+  },
+  {
+    "path": "/settings",
+    "page": "./pages/settings"
+  }
+]

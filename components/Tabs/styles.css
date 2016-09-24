@@ -1,0 +1,11 @@
+.bar {
+  display: block;
+  align-items: baseline;
+  height: 38px;
+}
+
+.tab {
+  cursor: pointer;
+  height: 38px;
+  line-height: 38px;
+}

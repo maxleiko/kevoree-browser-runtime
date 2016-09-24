@@ -1,0 +1,93 @@
+.logger {
+  position: absolute;
+  top: 50px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+}
+
+.loggerContainer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.scroller {
+
+}
+
+.clearBtn {
+  position: absolute;
+  top: 15px;
+  right: 30px;
+}
+
+.line {
+  padding: 4px 0;
+  font-family: monospace;
+  width: 100%;
+}
+
+.error {
+  background-color: #f2dede;
+  color: #a94442;
+}
+
+.warn {
+  background-color: #fcf8e3;
+  color: #8a6d3b;
+}
+
+.debug {
+  background-color: #d9edf7;
+  color: #31708f;
+}
+
+.info {
+  background-color: #fff;
+  color: #555;
+}
+
+.hovererror {
+  background-color: #ebcccc;
+}
+
+.hoverwarn {
+  background-color: #faf2cc;
+}
+
+.hoverinfo {
+  background-color: #f5f5f5;
+}
+
+.hoverdebug {
+  background-color: #c4e3f3;
+}
+
+.time {
+  display: inline-flex;
+  width: 80px;
+  margin: 0 5px;
+}
+
+.tag {
+  display: inline-flex;
+  width: 110px;
+  margin: 0 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.message {
+  display: inline-flex;
+  margin: 0 5px;
+}
+
+.messagePre {
+  margin: 0;
+}
