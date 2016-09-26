@@ -1,9 +1,8 @@
 import {
   BOOTSTRAP_VERSION, BOOTSTRAP_START, BOOTSTRAP_ERROR, BOOTSTRAP_SUCCESS,
   RETRY_BOOTSTRAP, INSTALLING, INSTALLED, RUNTIME_READY, DOWNLOADING,
-  DOWNLOADED, RUNTIME_ERROR,
+  DOWNLOADED, RUNTIME_ERROR, RUNTIME_STOPPED,
 } from '.';
-import { addLog } from './log';
 import { changeScript } from './kevscript';
 import history from '../history';
 import installer from '../kevoree/installer';
@@ -48,9 +47,11 @@ export function bootstrap() {
         const core = new KevoreeCore(kevs, '_fake_', logger);
 
         core.on('error', err => {
-          dispatch(addLog('error', Date.now(), 'Core', err.stack));
+          // dispatch(addLog('error', Date.now(), 'Core', err.stack));
           dispatch({ type: RUNTIME_ERROR, error: err });
         });
+
+        core.on('stopped', () => dispatch({ type: RUNTIME_STOPPED }));
 
         core.setBootstrapper({
           name: 'BrowserResolver',

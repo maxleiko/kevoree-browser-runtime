@@ -1,6 +1,6 @@
 import {
   RUNTIME_READY, RUNTIME_STARTED, RUNTIME_ERROR, CHANGE_TAB, CHANGE_NAME,
-  RUNTIME_STARTING,
+  RUNTIME_STARTING, RUNTIME_STOPPED,
 } from '../actions';
 import random from '../../utils/random';
 
@@ -22,6 +22,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         state: 'started',
+      };
+
+    case RUNTIME_STOPPED:
+      return {
+        ...state,
+        state: 'stopped',
       };
 
     case RUNTIME_STARTING:

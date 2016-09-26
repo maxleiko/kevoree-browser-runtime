@@ -20,7 +20,6 @@ export function stopRuntime() {
   return function stopRuntimeThunk(dispatch, getState) {
     const { core } = getState().runtime;
     core.stop();
-    // TODO
   };
 }
 

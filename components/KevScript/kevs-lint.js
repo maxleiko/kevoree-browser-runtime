@@ -34,9 +34,8 @@ function relativeToLine(ch, lines) {
   return ch - val;
 }
 
-export default (dispatch, kevs, ctxVars) => {
-  let previousScript = null;
-  return (text, updateLinting, options, cm) => {
+export default (dispatch, previousScript, kevs, ctxVars) =>
+  (text, updateLinting, options, cm) => {
     if (previousScript !== text) {
       let start = 0;
       const lines = text.split('\n').map((line, i) => {
@@ -111,8 +110,6 @@ export default (dispatch, kevs, ctxVars) => {
         dispatch(changeCtxVars(clonedCtxVars));
         dispatch(changeModel(model));
         updateLinting(cm, lintErrors);
-        previousScript = text;
       });
     }
   };
-};

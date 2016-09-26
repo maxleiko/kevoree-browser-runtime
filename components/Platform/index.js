@@ -52,6 +52,19 @@ const Platform = ({ name, state, onNameChanged, onStartClick, onStopClick }) => 
       );
       break;
 
+    case 'stopped':
+      actionBtn = (
+        <Button
+          raised
+          colored
+          onClick={onStartClick}
+        >Start</Button>
+      );
+      headerTxt = (
+        <strong>Re-start platform:</strong>
+      );
+      break;
+
     default:
       break;
   }

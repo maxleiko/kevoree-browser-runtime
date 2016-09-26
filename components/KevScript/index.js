@@ -16,7 +16,7 @@ import './kevs-parser';
 import './kevs-hint';
 import kevsLint from './kevs-lint';
 
-import { changeScript, mergeScript, changeCtxVars } from '../../core/actions/kevscript';
+import { mergeScript } from '../../core/actions/kevscript';
 
 class KevScript extends React.Component {
   static propTypes = {
@@ -41,8 +41,9 @@ class KevScript extends React.Component {
       lint: {
         getAnnotations: kevsLint(
           this.props.dispatch,
+          this.props.script,
           this.props.kevs,
-          this.props.ctxVars,
+          this.props.ctxVars
         ),
         async: true,
       },
@@ -57,7 +58,6 @@ class KevScript extends React.Component {
             <Grid key={i}>
               <Cell col={6}>
                 <Textfield
-                  onChange={() => {}}
                   label="Key"
                   floatingLabel
                   value={name}
@@ -65,7 +65,6 @@ class KevScript extends React.Component {
               </Cell>
               <Cell col={6}>
                 <Textfield
-                  onChange={() => {}}
                   label="Value"
                   floatingLabel
                   value={this.props.ctxVars[name]}

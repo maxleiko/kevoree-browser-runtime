@@ -23,7 +23,6 @@ class RuntimePage extends React.Component {
     unreadLogs: React.PropTypes.number,
     activeTab: React.PropTypes.number,
     changeTab: React.PropTypes.func,
-    changeScript: React.PropTypes.func,
   };
 
   static contextTypes = {
