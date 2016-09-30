@@ -40,6 +40,7 @@ export const REGISTRY_HOST = 'REGISTRY_HOST';
 export const REGISTRY_PORT = 'REGISTRY_PORT';
 export const REGISTRY_SSL = 'REGISTRY_SSL';
 export const RESOLVER = 'RESOLVER';
+export const DEV_MODE = 'DEV_MODE';
 
 export const LOG = 'LOG';
 export const POP_LOG = 'POP_LOG';

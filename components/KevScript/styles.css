@@ -11,6 +11,16 @@
   height: calc(100% - 60px);
 }
 
+.ctxVarsTitle {
+  position: relative;
+  top: 2px;
+  left: 5px;
+}
+
+.ctxVarsTable {
+  width: 100%;
+}
+
 .mergeBtn {
   position: absolute;
   right: 20px;

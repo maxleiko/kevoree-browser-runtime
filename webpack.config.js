@@ -95,6 +95,10 @@ const config = {
     }),
   ],
 
+  alias: {
+    localforage: path.resolve(__dirname, 'node_modules', 'localforage', 'src', 'localforage.js'),
+  },
+
   externals: {
     react: 'React',
     'react-dom': 'ReactDOM',

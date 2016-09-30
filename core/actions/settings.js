@@ -1,5 +1,5 @@
 import {
-  REGISTRY_HOST, REGISTRY_PORT, REGISTRY_SSL, RESOLVER,
+  REGISTRY_HOST, REGISTRY_PORT, REGISTRY_SSL, RESOLVER, DEV_MODE,
 } from '.';
 
 export function changeHost(host) {
@@ -19,4 +19,8 @@ export function changeSsl(ssl) {
 
 export function changeResolver(host) {
   return { type: RESOLVER, value: host };
+}
+
+export function changeDevMode(devMode) {
+  return { type: DEV_MODE, value: devMode };
 }

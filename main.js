@@ -23,6 +23,7 @@ import history from './core/history';
 
 import { changeRoute } from './core/actions/main';
 
+const container = document.getElementById('container');
 const { host, port, ssl } = store.getState().settings;
 TinyConf.set('registry', {
   host,
@@ -34,8 +35,7 @@ TinyConf.set('registry', {
   },
 });
 
-let routes = require('./routes.json'); // Loaded with utils/routes-loader.js
-const container = document.getElementById('container');
+let routes = require('./routes.json'); // eslint-disable-line global-require
 
 function renderComponent(component) {
   ReactDOM.render(<Provider store={store}>{component}</Provider>, container);

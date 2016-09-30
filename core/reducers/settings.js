@@ -1,5 +1,5 @@
 import {
-  REGISTRY_HOST, REGISTRY_PORT, REGISTRY_SSL, RESOLVER,
+  REGISTRY_HOST, REGISTRY_PORT, REGISTRY_SSL, RESOLVER, DEV_MODE,
 } from '../actions';
 
 const initialState = {
@@ -7,6 +7,7 @@ const initialState = {
   port: 443,
   ssl: true,
   resolver: 'https://unpkg.com', // 'http://unpkg.com',
+  devMode: false,
 };
 
 export default (state = initialState, action) => {
@@ -33,6 +34,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         resolver: action.value,
+      };
+
+    case DEV_MODE:
+      return {
+        ...state,
+        devMode: action.value,
       };
 
     default:

@@ -5,7 +5,7 @@ import { Grid, Cell } from 'react-mdl/lib/Grid';
 import Textfield from 'react-mdl/lib/Textfield';
 import Checkbox from 'react-mdl/lib/Checkbox';
 import {
-  changeHost, changePort, changeSsl, changeResolver,
+  changeHost, changePort, changeSsl, changeResolver, changeDevMode,
 } from '../../core/actions/settings';
 
 class SettingsPage extends React.Component {
@@ -15,10 +15,12 @@ class SettingsPage extends React.Component {
     port: React.PropTypes.number,
     ssl: React.PropTypes.bool,
     resolver: React.PropTypes.string,
+    devMode: React.PropTypes.bool,
     changeHost: React.PropTypes.func,
     changePort: React.PropTypes.func,
     changeSsl: React.PropTypes.func,
     changeResolver: React.PropTypes.func,
+    changeDevMode: React.PropTypes.func,
   };
 
   componentDidMount() {
@@ -61,9 +63,16 @@ class SettingsPage extends React.Component {
             <Cell col={4}>
               <Textfield
                 floatingLabel
-                label="Browser resolver service"
+                label="Resolver service"
                 value={this.props.resolver}
                 onChange={evt => this.props.changeResolver(evt.target.value)}
+              />
+            </Cell>
+            <Cell offsetDesktop={4} col={4} align="middle">
+              <Checkbox
+                label="DevMode"
+                checked={this.props.devMode}
+                onChange={() => this.props.changeDevMode(!this.props.devMode)}
               />
             </Cell>
           </Grid>
@@ -77,5 +86,5 @@ export default connect(
   (state) => ({
     ...state.settings,
   }),
-  { changeHost, changePort, changeSsl, changeResolver }
+  { changeHost, changePort, changeSsl, changeResolver, changeDevMode }
 )(SettingsPage);
