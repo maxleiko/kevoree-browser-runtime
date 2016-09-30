@@ -102,7 +102,6 @@ function getBindings(instance) {
 
 export default model =>
   cm => {
-    console.log('Start hinting...');
     const cursor = cm.getCursor();
     const token = cm.getTokenAt(cursor);
     const line = cm.getLine(cursor.line);
@@ -191,7 +190,6 @@ export default model =>
       }
     }
 
-    console.log('Hinting done', list.map(createElement));
     return {
       list: list.map(createElement),
       from: CodeMirror.Pos(cursor.line, cursor.ch), // eslint-disable-line

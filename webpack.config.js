@@ -95,10 +95,6 @@ const config = {
     }),
   ],
 
-  alias: {
-    localforage: path.resolve(__dirname, 'node_modules', 'localforage', 'src', 'localforage.js'),
-  },
-
   externals: {
     react: 'React',
     'react-dom': 'ReactDOM',
@@ -113,6 +109,7 @@ const config = {
           path.resolve(__dirname, './components'),
           path.resolve(__dirname, './core'),
           path.resolve(__dirname, './pages'),
+          path.resolve(__dirname, './utils'),
           path.resolve(__dirname, './main.js'),
         ],
         loader: `babel-loader?${JSON.stringify(babelConfig)}`,

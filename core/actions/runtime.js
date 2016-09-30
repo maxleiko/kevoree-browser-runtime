@@ -13,8 +13,8 @@ export function startRuntime() {
     dispatch(mergeScript())
       .then(() => dispatch({ type: RUNTIME_STARTED }))
       .catch(err => {
-        console.log('runtimeError in startRuntime', err);
-        dispatch({ type: RUNTIME_ERROR, error: err })
+        // console.log('runtimeError in startRuntime', err);
+        dispatch({ type: RUNTIME_ERROR, error: err });
       });
   };
 }
@@ -33,7 +33,7 @@ export function deployModel(model) {
     return new Promise((resolve, reject) => {
       getState().runtime.core.deploy(model, err => {
         if (err) {
-          console.log('ERROR?', err);
+          // console.log('ERROR?', err);
           dispatch({ type: DEPLOY_ERROR, error: err });
           reject(err);
         } else {

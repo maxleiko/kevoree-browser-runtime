@@ -29,7 +29,12 @@ const getTime = time => {
   return `${hours}:${mins}:${secs}`;
 };
 
-const htmlify = content => content.replace(new RegExp(/\n/, 'g'), '<br/>&nbsp;&nbsp;');
+const htmlify = content => {
+  if (content) {
+    return content.replace(new RegExp(/\n/, 'g'), '<br/>&nbsp;&nbsp;');
+  }
+  return '';
+};
 
 class Line extends React.Component {
 

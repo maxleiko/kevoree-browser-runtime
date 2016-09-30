@@ -11,7 +11,7 @@ import { clearLogs } from '../../core/actions/log';
 const Logger = ({ logs, onClearClick }) => (
   <div className={s.logger}>
     <div className={s.loggerContainer}>
-      <Cell col={12} shadow={2} className={s.scroller}>
+      <Cell col={12} shadow={2}>
         {logs.map((log, i) => (
           <Line key={i} {...log} />
         ))}

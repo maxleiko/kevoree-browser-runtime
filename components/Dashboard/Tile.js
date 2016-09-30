@@ -26,13 +26,10 @@ class Tile extends React.Component {
     Object.getOwnPropertyNames(this.props.kComp.constructor.prototype)
       .filter(name => name.startsWith('in_'))
       .forEach(name => {
-        console.log('INPUT', name);
         const func = this.props.kComp[name];
-        console.log('func', func);
         this.props.kComp[name] = (msg, cb) => {
           func.call(this.props.kComp, [msg, cb]);
           this.props.kComp.store.dispatch({ type: 'INPUT', name, message: msg });
-          console.log('dispatch', { type: 'INPUT', name, message: msg });
         };
       });
 
