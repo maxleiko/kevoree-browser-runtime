@@ -100,103 +100,101 @@ function getBindings(instance) {
   return [];
 }
 
-CodeMirror.registerHelper('hint', 'kevscript', cm => {
-  const cursor = cm.getCursor();
-  const token = cm.getTokenAt(cursor);
-  const line = cm.getLine(cursor.line);
-  const lineStart = line.substr(0, token.end);
-  const match = STATEMENTS_REGEX.exec(lineStart);
+export default model =>
+  cm => {
+    console.log('Start hinting...');
+    const cursor = cm.getCursor();
+    const token = cm.getTokenAt(cursor);
+    const line = cm.getLine(cursor.line);
+    const lineStart = line.substr(0, token.end);
+    const match = STATEMENTS_REGEX.exec(lineStart);
 
-  let list = [];
+    let list = [];
 
-  if (match) {
-    const statement = match[2];
-    // in a statement
-    // trying to access/add on instance
-    let path = token.string.split('.').filter(str => str.trim().length > 0);
-    if (path.length === 1 && path[0].length === 0) {
-      path = [];
+    if (match) {
+      const statement = match[2];
+      // in a statement
+      // trying to access/add on instance
+      let path = token.string.split('.').filter(str => str.trim().length > 0);
+      if (path.length === 1 && path[0].length === 0) {
+        path = [];
+      }
+      let instance;
+      switch (statement) {
+        case 'set':
+          instance = getInstance(path, model);
+          if (instance) {
+            list = getComponents(instance)
+              .concat(getInstances(instance))
+              .concat(getAttributes(instance));
+          }
+          break;
+
+        case 'bind':
+        case 'unbind':
+          instance = getInstance(path, model);
+          if (instance) {
+            list = getComponents(instance)
+              .concat(getInstances(instance))
+              .concat(getBindings(instance))
+              .filter(elem => {
+                if (path.length === 0) {
+                  return elem.type === 'node';
+                } else if (path.length === 1) {
+                  return elem.type === 'comp';
+                } else if (path.length === 2) {
+                  return elem.type === 'input' || elem.type === 'output';
+                }
+                return true;
+              });
+          }
+          break;
+
+        case 'add':
+          if (token.type === 'delimiter') {
+            list = [
+              createElemData('version')({ name: 'LATEST' }),
+              createElemData('version')({ name: 'RELEASE' }),
+            ];
+          }
+          break;
+
+        case 'network':
+          if (path.length === 0) {
+            list = model.nodes.array.map(createElemData('node'));
+          } else if (path.length === 1) {
+            list = model.findNodesByID(path[0])
+              .networkInformation.array.map(createElemData('network'));
+          } else if (path.length === 2) {
+            list = model.findNodesByID(path[0])
+              .findNetworkInformationByID(path[1])
+              .values.array.map(createElemData('value'));
+          }
+          break;
+
+        case 'attach':
+        case 'detach':
+          if (path.length === 0) {
+            list = model.nodes.array.map(createElemData('node'))
+              .concat(model.groups.array.map(createElemData('group')));
+          }
+          break;
+
+        default:
+          break;
+      }
+    } else {
+      // blank new line
+      if (token.type !== 'comment') {
+        // not a comment line
+        list = STATEMENTS.map(stat => ({ type: 'statement', text: stat }));
+      }
     }
-    let instance;
-    switch (statement) {
-      case 'set':
-        instance = getInstance(path, cm.options.lint.lintedModel);
-        if (instance) {
-          list = getComponents(instance)
-            .concat(getInstances(instance))
-            .concat(getAttributes(instance));
-        }
-        break;
 
-      case 'bind':
-      case 'unbind':
-        instance = getInstance(path, cm.options.lint.lintedModel);
-        if (instance) {
-          list = getComponents(instance)
-            .concat(getInstances(instance))
-            .concat(getBindings(instance))
-            .filter(elem => {
-              if (path.length === 0) {
-                return elem.type === 'node';
-              } else if (path.length === 1) {
-                return elem.type === 'comp';
-              } else if (path.length === 2) {
-                return elem.type === 'input' || elem.type === 'output';
-              }
-              return true;
-            });
-        }
-        break;
-
-      case 'add':
-        if (token.type === 'delimiter') {
-          list = [
-            createElemData('version')({ name: 'LATEST' }),
-            createElemData('version')({ name: 'RELEASE' }),
-          ];
-        }
-        break;
-
-      case 'network':
-        if (path.length === 0) {
-          list = cm.options.lint.lintedModel
-            .nodes.array.map(createElemData('node'));
-        } else if (path.length === 1) {
-          list = cm.options.lint.lintedModel
-            .findNodesByID(path[0])
-            .networkInformation.array.map(createElemData('network'));
-        } else if (path.length === 2) {
-          list = cm.options.lint.lintedModel
-            .findNodesByID(path[0])
-            .findNetworkInformationByID(path[1])
-            .values.array.map(createElemData('value'));
-        }
-        break;
-
-      case 'attach':
-      case 'detach':
-        if (path.length === 0) {
-          list = cm.options.lint.lintedModel
-            .nodes.array.map(createElemData('node'))
-            .concat(cm.options.lint.lintedModel
-              .groups.array.map(createElemData('group')));
-        }
-        break;
-
-      default:
-        break;
-    }
-  } else {
-    // blank new line
-    if (token.type !== 'comment') {
-      // not a comment line
-      list = STATEMENTS.map(stat => ({ type: 'statement', text: stat }));
-    }
-  }
-
-  return {
-    list: list.map(createElement),
-    from: CodeMirror.Pos(cursor.line, cursor.ch), // eslint-disable-line
-    to: CodeMirror.Pos(cursor.line, token.end), // eslint-disable-line
+    console.log('Hinting done', list.map(createElement));
+    return {
+      list: list.map(createElement),
+      from: CodeMirror.Pos(cursor.line, cursor.ch), // eslint-disable-line
+      to: CodeMirror.Pos(cursor.line, token.end), // eslint-disable-line
+    };
   };
-});

@@ -2,7 +2,7 @@ import {
   RUNTIME_STARTED, RUNTIME_ERROR, CHANGE_TAB, CHANGE_NAME, RUNTIME_STARTING,
   DEPLOY_START, DEPLOY_ERROR, DEPLOY_SUCCESS,
 } from '.';
-import { increaseUnread, addLog } from './log';
+import { increaseUnread } from './log';
 import { mergeScript } from './kevscript';
 
 export function startRuntime() {
@@ -12,7 +12,10 @@ export function startRuntime() {
     dispatch({ type: RUNTIME_STARTING });
     dispatch(mergeScript())
       .then(() => dispatch({ type: RUNTIME_STARTED }))
-      .catch(err => dispatch({ type: RUNTIME_ERROR, error: err }));
+      .catch(err => {
+        console.log('runtimeError in startRuntime', err);
+        dispatch({ type: RUNTIME_ERROR, error: err })
+      });
   };
 }
 
@@ -30,7 +33,7 @@ export function deployModel(model) {
     return new Promise((resolve, reject) => {
       getState().runtime.core.deploy(model, err => {
         if (err) {
-          dispatch(addLog('error', Date.now(), 'Core', err.stack));
+          console.log('ERROR?', err);
           dispatch({ type: DEPLOY_ERROR, error: err });
           reject(err);
         } else {

@@ -6,7 +6,7 @@ const initialState = {
   host: 'kevoree.braindead.fr',
   port: 443,
   ssl: true,
-  resolver: 'http://npm-resolver.braindead.fr',
+  resolver: 'https://unpkg.com', // 'http://unpkg.com',
 };
 
 export default (state = initialState, action) => {

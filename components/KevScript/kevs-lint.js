@@ -1,8 +1,5 @@
 import CodeMirror from 'codemirror/lib/codemirror';
 import 'codemirror/addon/lint/lint';
-import {
-  changeCtxVars, changeModel, changeScript,
-} from '../../core/actions/kevscript';
 
 const TOKENS = [
   'repoToken', 'includeToken', 'addToken', 'removeToken', 'moveToken',
@@ -34,82 +31,75 @@ function relativeToLine(ch, lines) {
   return ch - val;
 }
 
-export default (dispatch, previousScript, kevs, ctxVars) =>
-  (text, updateLinting, options, cm) => {
-    if (previousScript !== text) {
-      let start = 0;
-      const lines = text.split('\n').map((line, i) => {
-        const obj = {
-          start,
-          end: start + line.length,
-          line: i,
-        };
-        start += line.length + 1;
-        return obj;
-      });
+function getWarnings(warnings, lines) {
+  return warnings.map(warning => {
+    const line = findLine(warning.pos, lines);
+    return {
+      severity: 'warning',
+      message: warning.message,
+      from: CodeMirror.Pos( // eslint-disable-line new-cap
+        line, relativeToLine(warning.pos[0], lines)),
+      to: CodeMirror.Pos( // eslint-disable-line new-cap
+        line, relativeToLine(warning.pos[1], lines)),
+    };
+  });
+}
 
-      const clonedCtxVars = { ...ctxVars };
-      kevs.parse(text, options.model, clonedCtxVars, (err, model, warnings) => {
+export default (executeScript) =>
+  (text, updateLinting, options, cm) => {
+    let start = 0;
+    const lines = text.split('\n').map((line, i) => {
+      const obj = {
+        start,
+        end: start + line.length,
+        line: i,
+      };
+      start += line.length + 1;
+      return obj;
+    });
+
+    executeScript(text)
+      .then(({ warnings }) => updateLinting(cm, getWarnings(warnings, lines)))
+      .catch(({ error, warnings }) => {
         const lintErrors = [];
-        if (err) {
-          if (err.nt) {
-            let message = `Unable to match '${err.nt}'`;
-            if (err.nt === 'ws') {
-              message = 'Unable to match \'whitespace\'';
-            } else if (err.nt === 'kevScript') {
-              message = 'A line must start with a statement (add, attach, set, etc.)';
-            } else if (TOKENS.indexOf(err.nt) >= 0) {
-              message = `Expected statement or comment (do you mean '${(err.nt.split('Token').shift())}'?)`; // eslint-disable-line max-len
-            }
+        if (error.nt) {
+          let message = `Unable to match '${error.nt}'`;
+          if (error.nt === 'ws') {
+            message = 'Unable to match \'whitespace\'';
+          } else if (error.nt === 'kevScript') {
+            message = 'A line must start with a statement (add, attach, set, etc.)';
+          } else if (TOKENS.indexOf(error.nt) >= 0) {
+            message = `Expected statement or comment (do you mean '${(error.nt.split('Token').shift())}'?)`; // eslint-disable-line max-len
+          }
+          lintErrors.push({
+            severity: 'error',
+            message,
+            from: CodeMirror.Pos( // eslint-disable-line new-cap
+              error.line - 1,
+              (error.col === 0) ? 0 : error.col - 1,
+            ),
+            to: CodeMirror.Pos( // eslint-disable-line new-cap
+              error.line - 1,
+              (error.col === 0) ? 1 : error.col,
+            ),
+          });
+        } else {
+          if (error.pos) {
+            const line = findLine(error.pos, lines);
             lintErrors.push({
               severity: 'error',
-              message,
+              message: error.message,
               from: CodeMirror.Pos( // eslint-disable-line new-cap
-                err.line - 1,
-                (err.col === 0) ? 0 : err.col - 1,
+                line,
+                relativeToLine(error.pos[0], lines)
               ),
               to: CodeMirror.Pos( // eslint-disable-line new-cap
-                err.line - 1,
-                (err.col === 0) ? 1 : err.col,
+                line,
+                relativeToLine(error.pos[1], lines),
               ),
             });
-          } else {
-            if (err.pos) {
-              const line = findLine(err.pos, lines);
-              lintErrors.push({
-                severity: 'error',
-                message: err.message,
-                from: CodeMirror.Pos( // eslint-disable-line new-cap
-                  line,
-                  relativeToLine(err.pos[0], lines)
-                ),
-                to: CodeMirror.Pos( // eslint-disable-line new-cap
-                  line,
-                  relativeToLine(err.pos[1], lines),
-                ),
-              });
-            }
           }
-        } else {
-          options.lintedModel = model; // eslint-disable-line
         }
-
-        warnings.forEach((warning) => {
-          const line = findLine(warning.pos, lines);
-          lintErrors.push({
-            severity: 'warning',
-            message: warning.message,
-            from: CodeMirror.Pos( // eslint-disable-line new-cap
-              line, relativeToLine(warning.pos[0], lines)),
-            to: CodeMirror.Pos( // eslint-disable-line new-cap
-              line, relativeToLine(warning.pos[1], lines)),
-          });
-        });
-
-        dispatch(changeScript(text));
-        dispatch(changeCtxVars(clonedCtxVars));
-        dispatch(changeModel(model));
-        updateLinting(cm, lintErrors);
+        updateLinting(cm, lintErrors.concat(getWarnings(warnings, lines)));
       });
-    }
   };

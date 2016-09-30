@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://kevoree-browser-runtime.firebaseapp.com/</loc>
+  </url>
+  <url>
+    <loc>https://kevoree-browser-runtime.firebaseapp.com/bootstrap</loc>
+  </url>
+  <url>
+    <loc>https://kevoree-browser-runtime.firebaseapp.com/runtime</loc>
+  </url>
+  <url>
+    <loc>https://kevoree-browser-runtime.firebaseapp.com/error</loc>
+  </url>
+  <url>
+    <loc>https://kevoree-browser-runtime.firebaseapp.com/about</loc>
+  </url>
+  <url>
+    <loc>https://kevoree-browser-runtime.firebaseapp.com/settings</loc>
+  </url>
+</urlset>

@@ -27,6 +27,7 @@
 }
 
 .line {
+  display: inline-flex;
   padding: 4px 0;
   font-family: monospace;
   width: 100%;
@@ -75,7 +76,6 @@
 }
 
 .tag {
-  display: inline-flex;
   width: 110px;
   margin: 0 5px;
   white-space: nowrap;
@@ -84,7 +84,6 @@
 }
 
 .message {
-  display: inline-flex;
   margin: 0 5px;
 }
 

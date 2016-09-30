@@ -4,6 +4,7 @@ import {
   DOWNLOADED, RUNTIME_ERROR, RUNTIME_STOPPED,
 } from '.';
 import { changeScript } from './kevscript';
+import { addLog } from './log';
 import history from '../history';
 import installer from '../kevoree/installer';
 import KevoreeLogger from '../kevoree/KevoreeLogger';
@@ -16,8 +17,11 @@ function downloadAndEvalTarball(resolver, dispatch, name, version) {
 }
 
 function fetchPkg(name, version) {
-  return fetch(`https://registry.npmjs.cf/${name}/${version}`)
-    .then(response => response.json());
+  return fetch(`https://unpkg.com/${name}@${version}`)
+    .then(resp => {
+      const splitted = resp.url.split('@');
+      return splitted[splitted.length - 1];
+    });
 }
 
 export function bootstrap() {
@@ -31,12 +35,12 @@ export function bootstrap() {
       .reduce((prev, name) => prev.then(() => {
         dispatch({ type: INSTALLING, name, version: modules[name].version });
         return fetchPkg(name, modules[name].version)
-          .then(json => downloadAndEvalTarball(resolver, dispatch, name, json.version)
-            .then(() => json))
-          .then(json => dispatch({
+          .then(version => downloadAndEvalTarball(resolver, dispatch, name, version)
+            .then(() => version))
+          .then(version => dispatch({
             type: INSTALLED,
             name,
-            version: json.version,
+            version,
           }));
       }), Promise.resolve())
       .then(() => {
@@ -47,7 +51,7 @@ export function bootstrap() {
         const core = new KevoreeCore(kevs, '_fake_', logger);
 
         core.on('error', err => {
-          // dispatch(addLog('error', Date.now(), 'Core', err.stack));
+          dispatch(addLog('error', Date.now(), 'Core', err.stack));
           dispatch({ type: RUNTIME_ERROR, error: err });
         });
 
@@ -73,6 +77,9 @@ export function bootstrap() {
               done(err);
             }
           },
+          bootstrap(du, forceInstall, done) {
+            this.resolve(du, forceInstall, done);
+          },
           resolve(du, forceInstall, done) {
             logger.debug(this.name, `Resolving ${du.name}@${du.version}...`);
             installer(resolver, du.name, du.version)
@@ -86,7 +93,9 @@ export function bootstrap() {
         });
 
         const { name } = getState().runtime;
-        const script = `// bootstrap script\nadd ${name}: JavascriptNode/LATEST/LATEST\n`;
+        const script = `// bootstrap script
+add ${name}: JavascriptNode/LATEST/LATEST
+`;
 
         dispatch(changeScript(script));
         dispatch({ type: RUNTIME_READY, core, kevs, logger });

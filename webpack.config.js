@@ -34,13 +34,18 @@ const config = {
   entry: [
     /* Material Design Lite (https://getmdl.io) */
     '!!style!css!react-mdl/extra/material.min.css',
+    'react-mdl/extra/material.min.js',
+    /* CodeMirror CSS */
     '!!style!css!codemirror/lib/codemirror.css',
     '!!style!css!codemirror/addon/hint/show-hint.css',
     '!!style!css!codemirror/addon/lint/lint.css',
     '!!style!css!codemirror/addon/dialog/dialog.css',
+    /* Custom own CSS */
     '!!style!css!./styles/kevs.css',
     '!!style!css!./styles/main.css',
-    'react-mdl/extra/material.min.js',
+    /* React Grid Layout CSS */
+    '!!style!css!react-grid-layout/css/styles.css',
+    '!!style!css!react-resizable/css/styles.css',
     /* The main entry point of your JavaScript application */
     './main.js',
   ],
@@ -89,6 +94,11 @@ const config = {
       prettyPrint: true,
     }),
   ],
+
+  externals: {
+    react: 'React',
+    'react-dom': 'ReactDOM',
+  },
 
   // Options affecting the normal modules
   module: {
