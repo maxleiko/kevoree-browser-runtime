@@ -1,0 +1,1 @@
+export const CHANGE_VERSION = 'CHANGE_VERSION';
