@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Installer frame</title>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.min.js"></script>
+</head>
+<body>
+  <script type="application/javascript">
+    if (window.parent === window) {
+      window.location.replace(window.location.origin);
+    }
+    var querystring = (function () {
+      // See: https://github.com/joyent/node/issues/1707
+      function hasOwnProperty(obj, prop) {
+        return Object.prototype.hasOwnProperty.call(obj, prop);
+      }
+
+      var isArray = Array.isArray || function(xs) {
+        return Object.prototype.toString.call(xs) === '[object Array]';
+      };
+
+      return function querystring(qs, sep, eq, options) {
+        sep = sep || '&';
+        eq = eq || '=';
+        var obj = {};
+
+        if (typeof qs !== 'string' || qs.length === 0) {
+          return obj;
+        }
+
+        var regexp = /\+/g;
+        qs = qs.split(sep);
+
+        var maxKeys = 1000;
+        if (options && typeof options.maxKeys === 'number') {
+          maxKeys = options.maxKeys;
+        }
+
+        var len = qs.length;
+        // maxKeys <= 0 means that we should not limit keys count
+        if (maxKeys > 0 && len > maxKeys) {
+          len = maxKeys;
+        }
+
+        for (var i = 0; i < len; ++i) {
+          var x = qs[i].replace(regexp, '%20'),
+            idx = x.indexOf(eq),
+            kstr, vstr, k, v;
+
+          if (idx >= 0) {
+            kstr = x.substr(0, idx);
+            vstr = x.substr(idx + 1);
+          } else {
+            kstr = x;
+            vstr = '';
+          }
+
+          k = decodeURIComponent(kstr);
+          v = decodeURIComponent(vstr);
+
+          if (!hasOwnProperty(obj, k)) {
+            obj[k] = v;
+          } else if (isArray(obj[k])) {
+            obj[k].push(v);
+          } else {
+            obj[k] = [obj[k], v];
+          }
+        }
+
+        return obj;
+      };
+    })();
+
+    function loadScript(srcPath) {
+      return new Promise(function (resolve, reject) {
+        const script = document.createElement('script');
+        script.setAttribute('src', srcPath);
+        script.async = true;
+        script.onload = function () {
+          document.body.removeChild(script);
+          resolve();
+        };
+        script.onerror = function () {
+          document.body.removeChild(script);
+          reject(new Error('Unable to load script ' + srcPath));
+        };
+        document.body.appendChild(script);
+      });
+    }
+
+    function installDeployUnit(resolver, name, version, devMode) {
+      if (devMode === 'true') {
+        return loadScript('http://localhost:59000/browser/'+name+'.js')
+          .then(() => 'http://localhost:59000')
+          .catch(() =>
+            loadScript(resolver + '/' + name + '@' + version + '/browser/' + name + '.js')
+              .then(() => resolver));
+      }
+
+      return loadScript(resolver + '/' + name + '@' + version + '/browser/' + name + '.js')
+        .then(() => resolver);
+    }
+
+    var params = querystring(window.location.search.substr(1));
+
+    var KevoreeModuleLoader = parent.KevoreeModuleLoader;
+    var KevoreeLibrary = parent.KevoreeLibrary;
+    var scriptError = null;
+
+    window.onerror = function (msg, url, line, col, err) {
+      var msg = {
+        type: 'error',
+        error: err,
+        message: msg,
+        url: url,
+        line: line,
+        col: col
+      };
+      parent.postMessage(msg, window.location.origin);
+      scriptError = msg;
+    };
+
+    console.log('Installing: ' + params.name + '@' + params.version);
+    installDeployUnit(params.resolver, params.name, params.version, params.devMode)
+      .then(function (resolver) {
+        if (!scriptError) {
+          console.log('Installed: ' + params.name + '@' + params.version);
+          parent.postMessage({
+            type: 'installed',
+            name: params.name,
+            version: params.version,
+            resolver: resolver
+          }, window.location.origin);
+        }
+      })
+      .catch(function (err) {
+        console.error('Something went wrong!');
+        parent.postMessage({type: 'error', error: err }, window.location.origin);
+      });
+  </script>
+</body>
+</html>

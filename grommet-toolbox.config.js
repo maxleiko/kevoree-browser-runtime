@@ -3,6 +3,7 @@ import path from 'path';
 export default {
   copyAssets: [
     'src/index.html',
+    'src/installer.html',
     {
       asset: 'src/img/**',
       dist: 'dist/img/'
@@ -12,5 +13,5 @@ export default {
   mainJs: 'src/js/index.js',
   mainScss: 'src/scss/index.scss',
   devServerPort: 9000,
-  eslintOverride: path.resolve(__dirname, 'customEslintrc')
+  eslintOverride: path.resolve(__dirname, '.eslintrc.json')
 };
