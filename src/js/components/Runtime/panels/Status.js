@@ -70,7 +70,7 @@ class Status extends React.Component {
     }
 
     return (
-      <Footer size="small" pad="small">
+      <Footer size="small" pad="small" separator="top" style={{ backgroundColor: '#f5f5f5' }}>
         <Form direction="row" compact>
           <FormField label="Node name" htmlFor="name">
             <input id="name" type="text" value={this.props.name} onChange={e => this.props.changeName(e.target.value)} />
