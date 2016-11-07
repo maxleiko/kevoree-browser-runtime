@@ -7,14 +7,14 @@ import Cli from 'grommet/components/icons/base/Cli';
 
 import PanelLayout from './PanelLayout';
 
-const Logs = ({ logs }) => (
+const Logs = ({ messages }) => (
   <PanelLayout title="Logs" icon={<Cli />}>
     <List selectable>
-      <ListPlaceholder unfilteredTotal={logs.length} filteredTotal={logs.length}
+      <ListPlaceholder unfilteredTotal={messages.length} filteredTotal={messages.length}
         emptyMessage="There is no logs at the moment." />
-      {logs.map((log, i) => (
+      {messages.map((msg, i) => (
         <ListItem key={i}>
-          {log.message}
+          {msg.content}
         </ListItem>
       ))}
     </List>
@@ -22,9 +22,9 @@ const Logs = ({ logs }) => (
 );
 
 Logs.propTypes = {
-  logs: React.PropTypes.array.isRequired
+  messages: React.PropTypes.array.isRequired
 };
 
 export default connect(
-  state => ({ logs: state.runtime.logs })
+  state => ({ messages: state.logs.messages })
 )(Logs);

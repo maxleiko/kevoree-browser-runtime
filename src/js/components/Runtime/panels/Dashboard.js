@@ -1,17 +1,16 @@
 import React from 'react';
-import Section from 'grommet/components/Section';
-import Paragraph from 'grommet/components/Paragraph';
+import Box from 'grommet/components/Box';
 import Grid from 'grommet/components/icons/base/Grid';
+import ListPlaceholder from 'grommet-addons/components/ListPlaceholder';
 
 import PanelLayout from './PanelLayout';
 
 const Dashboard = () => (
   <PanelLayout title="Dashboard" icon={<Grid />}>
-    <Section pad="small">
-      <Paragraph>
-        /dashboard TODO
-      </Paragraph>
-    </Section>
+    <Box>
+      <ListPlaceholder unfilteredTotal={0} filteredTotal={0}
+        emptyMessage="There is no components at the moment." />
+    </Box>
   </PanelLayout>
 );
 
