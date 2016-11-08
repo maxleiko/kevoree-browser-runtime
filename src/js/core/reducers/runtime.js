@@ -6,7 +6,9 @@ import { id as randomId } from '../utils/random';
 
 const initialState = {
   state: 'init',
-  name: `node${randomId()}`
+  name: `node${randomId()}`,
+  registry: 'https://kevoree.braindead.fr',
+  resolver: 'https://unpkg.com'
 };
 
 export default (state = initialState, action) => {

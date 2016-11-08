@@ -23,4 +23,8 @@ export function stopNode() {
   };
 }
 
+export function changeRegistry(uri) {
+  // TODO
+}
+
 export const STATES = ['init', 'started', 'starting', 'stopping', 'stopped', 'error'];

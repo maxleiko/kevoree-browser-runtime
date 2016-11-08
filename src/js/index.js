@@ -8,10 +8,10 @@ import { syncHistoryWithStore } from 'react-router-redux';
 
 import store from './core/store';
 import Bootstrap from './components/Bootstrap';
-import Runtime from './components/Runtime';
-import Status from './components/Runtime/panels/Status';
-import Logs from './components/Runtime/panels/Logs';
-import Dashboard from './components/Runtime/panels/Dashboard';
+import Runtime from './components/runtime/Runtime';
+import Status from './components/runtime/status/Status';
+import Logs from './components/runtime/logs/Logs';
+import Grid from './components/runtime/grid/Grid';
 
 const history = syncHistoryWithStore(browserHistory, store);
 
@@ -23,7 +23,7 @@ ReactDOM.render(
         <IndexRedirect to="status" />
         <Route path="status" component={Status} />
         <Route path="logs" component={Logs} />
-        <Route path="dashboard" component={Dashboard} />
+        <Route path="grid" component={Grid} />
       </Route>
       <Redirect path="*" to="/" />
     </Router>

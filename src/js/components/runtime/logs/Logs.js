@@ -5,15 +5,15 @@ import ListItem from 'grommet/components/ListItem';
 import ListPlaceholder from 'grommet-addons/components/ListPlaceholder';
 import Cli from 'grommet/components/icons/base/Cli';
 
-import PanelLayout from './PanelLayout';
+import PanelLayout from '../PanelLayout';
 
 const Logs = ({ messages }) => (
   <PanelLayout title="Logs" icon={<Cli />}>
     <List selectable>
       <ListPlaceholder unfilteredTotal={messages.length} filteredTotal={messages.length}
         emptyMessage="There is no logs at the moment." />
-      {messages.map((msg, i) => (
-        <ListItem key={i}>
+      {messages.map(msg => (
+        <ListItem key={msg.id}>
           {msg.content}
         </ListItem>
       ))}

@@ -1,12 +1,12 @@
 import React from 'react';
 import Box from 'grommet/components/Box';
-import Grid from 'grommet/components/icons/base/Grid';
+import GridIcon from 'grommet/components/icons/base/Grid';
 import ListPlaceholder from 'grommet-addons/components/ListPlaceholder';
 
-import PanelLayout from './PanelLayout';
+import PanelLayout from '../PanelLayout';
 
-const Dashboard = () => (
-  <PanelLayout title="Dashboard" icon={<Grid />}>
+const Grid = ({}, { runtime }) => (
+  <PanelLayout title="Grid" icon={<GridIcon />}>
     <Box>
       <ListPlaceholder unfilteredTotal={0} filteredTotal={0}
         emptyMessage="There is no components at the moment." />
@@ -14,4 +14,8 @@ const Dashboard = () => (
   </PanelLayout>
 );
 
-export default Dashboard;
+Grid.contextTypes = {
+  runtime: React.PropTypes.object
+};
+
+export default Grid;

@@ -3,7 +3,7 @@ import Box from 'grommet/components/Box';
 import Header from 'grommet/components/Header';
 import Title from 'grommet/components/Title';
 
-const PanelLayout = ({ title, icon, children, footer }) => (
+const PanelLayout = ({ title, icon, children }) => (
   <Box full>
     <Header size="small" pad="small" colorIndex="grey-3">
       <Title responsive={false}>
@@ -12,15 +12,13 @@ const PanelLayout = ({ title, icon, children, footer }) => (
       </Title>
     </Header>
     {children}
-    {footer}
   </Box>
 );
 
 PanelLayout.propTypes = {
   icon: React.PropTypes.node.isRequired,
   title: React.PropTypes.string.isRequired,
-  children: React.PropTypes.node.isRequired,
-  footer: React.PropTypes.node
+  children: React.PropTypes.node.isRequired
 };
 
 export default PanelLayout;

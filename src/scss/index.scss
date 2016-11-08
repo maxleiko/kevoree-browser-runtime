@@ -1,5 +1,38 @@
 @import '~grommet/scss/vanilla/index';
 
+$sidebar-xsmall-width: round($inuit-base-spacing-unit * 6) !default; // 144px
+
 html, body, #content {
   height: 100%;
+}
+
+.#{$grommet-namespace}sidebar--xsmall {
+  @include media-query(lap-and-up) {
+    width: $sidebar-xsmall-width;
+  }
+}
+
+.kevoree-list-item {
+  background-color: #f5f5f5;
+
+  .grommetux-button:hover .grommetux-control-icon {
+    fill: white;
+    stroke: white;
+  }
+}
+
+.kevoree-btn:hover .grommetux-control-icon {
+  fill: white;
+  stroke: white;
+}
+
+form.disabled {
+  * {
+    background-color: #f5f5f5;
+    cursor: default;
+  }
+
+  .grommetux-form-field--text .grommetux-form-field__label {
+    cursor: default;
+  }
 }
