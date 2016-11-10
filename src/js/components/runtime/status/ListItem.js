@@ -4,7 +4,7 @@ import Box from 'grommet/components/Box';
 
 const MyListItem = ({ children, control }) => (
   <ListItem justify="between" align="start" className="kevoree-list-item">
-    <Box flex="grow">{children}</Box>
+    <Box>{children}</Box>
     {control}
   </ListItem>
 );

@@ -1,6 +1,6 @@
 import {
-  RUNTIME_START, RUNTIME_STOP, CHANGE_NAME, START_NODE, STOP_NODE, NODE_STARTED,
-  NODE_STOPPED
+  RUNTIME_START, RUNTIME_STOP, CHANGE_NAME, CHANGE_STATE, TOGGLE_DEV_MODE,
+  ERROR, CHANGE_RESOLVER, CHANGE_REGISTRY
 } from '../actions';
 import { id as randomId } from '../utils/random';
 
@@ -8,7 +8,9 @@ const initialState = {
   state: 'init',
   name: `node${randomId()}`,
   registry: 'https://kevoree.braindead.fr',
-  resolver: 'https://unpkg.com'
+  resolver: 'https://unpkg.com',
+  devMode: false,
+  error: undefined
 };
 
 export default (state = initialState, action) => {
@@ -31,28 +33,34 @@ export default (state = initialState, action) => {
         name: action.name
       };
 
-    case START_NODE:
+    case CHANGE_REGISTRY:
       return {
         ...state,
-        state: 'starting'
+        registry: action.value
       };
 
-    case STOP_NODE:
+    case CHANGE_RESOLVER:
       return {
         ...state,
-        state: 'stopping'
+        resolver: action.value
       };
 
-    case NODE_STARTED:
+    case CHANGE_STATE:
       return {
         ...state,
-        state: 'started'
+        state: action.value
       };
 
-    case NODE_STOPPED:
+    case TOGGLE_DEV_MODE:
       return {
         ...state,
-        state: 'stopped'
+        devMode: !state.devMode
+      };
+
+    case ERROR:
+      return {
+        ...state,
+        error: action.error
       };
 
     default:

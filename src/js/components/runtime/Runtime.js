@@ -1,4 +1,5 @@
 import React from 'react';
+
 import App from 'grommet/components/App';
 import Split from 'grommet/components/Split';
 import Sidebar from 'grommet/components/Sidebar';
@@ -16,16 +17,21 @@ class Runtime extends React.Component {
   };
 
   static childContextTypes = {
-    runtime: React.PropTypes.object
+    core: React.PropTypes.object,
+    logger: React.PropTypes.object
   };
 
   constructor(props, context) {
     super(props, context);
-    this.runtime = null;
+    this.core = null;
+    this.logger = null;
   }
 
   getChildContext() {
-    return { runtime: this.runtime };
+    return {
+      core: this.core,
+      logger: this.logger
+    };
   }
 
   render() {
@@ -34,15 +40,16 @@ class Runtime extends React.Component {
         <Split flex="right">
           <Sidebar colorIndex="grey-2" fixed={true} size="xsmall">
             <Header size="small" separator="bottom" style={{ padding: 6 }}>
-              <img src="img/logo2.png" title="Kevoree Browser Runtime"/>
+              <img src="img/logo2.png" title="Kevoree Browser Runtime" style={{ paddingLeft: 20 }} />
             </Header>
             <Menu primary={true}>
-              <Anchor path="/runtime/status" label="Status" icon={<StatusIcon />} />
-              <Anchor path="/runtime/logs" label="Logs" />
-              <Anchor path="/runtime/grid" label="Grid" />
+              <Anchor path="/status" label="Status" icon={<StatusIcon />} />
+              <Anchor path="/logs" label="Logs" />
+              <Anchor path="/grid" label="Grid" />
+              <Anchor path="/about" label="About" />
             </Menu>
             <Footer size="small" pad="small">
-              <p>DEV_VERSION</p>
+              <p>{/* add version */}</p>
             </Footer>
           </Sidebar>
           {this.props.children}

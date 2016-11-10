@@ -7,8 +7,6 @@ import { routerMiddleware } from 'react-router-redux';
 
 import reducers from './reducers';
 
-const initialState = {};
-
 const customCompose =
   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__  &&
     NODE_ENV === 'development' ?
@@ -19,7 +17,7 @@ const enhancer = customCompose(
 );
 
 // Sync dispatched route actions to the history
-const store = createStore(reducers, initialState, enhancer);
+const store = createStore(reducers, enhancer);
 
 if (module.hot) {
   module.hot.accept('./reducers', () => {

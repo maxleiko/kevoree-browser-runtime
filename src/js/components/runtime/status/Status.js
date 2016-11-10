@@ -11,13 +11,15 @@ import Home from 'grommet/components/icons/base/Home';
 import PlayIcon from 'grommet/components/icons/base/PlayFill';
 import StopIcon from 'grommet/components/icons/base/StopFill';
 import InProgressIcon from 'grommet/components/icons/base/InProgress';
+import CloseIcon from 'grommet/components/icons/base/Close';
 
 import PanelLayout from '../PanelLayout';
 import NodeSettings from './NodeSettings';
-import BootstrapSettings from './BootstrapSettings';
 import RegistrySettings from './RegistrySettings';
+import ResolverSettings from './ResolverSettings';
+import BootstrapSettings from './BootstrapSettings';
 
-import { startNode, stopNode, STATES } from '../../../core/actions/runtime';
+import { start, stop, STATES } from '../../../core/actions/runtime';
 
 const getIcon = (state) => {
   switch (state) {
@@ -31,6 +33,9 @@ const getIcon = (state) => {
     case 'starting':
     case 'stopping':
       return <InProgressIcon />;
+
+    case 'error':
+      return <CloseIcon />;
   }
 };
 
@@ -48,6 +53,9 @@ const getLabel = (state) => {
 
     case 'started':
       return 'Stop';
+
+    case 'error':
+      return 'Error';
   }
 };
 
@@ -55,8 +63,8 @@ class Status extends React.Component {
 
   static propTypes = {
     state: React.PropTypes.oneOf(STATES),
-    startNode: React.PropTypes.func.isRequired,
-    stopNode: React.PropTypes.func.isRequired
+    start: React.PropTypes.func.isRequired,
+    stop: React.PropTypes.func.isRequired
   };
 
   render() {
@@ -64,11 +72,11 @@ class Status extends React.Component {
     switch (this.props.state) {
       case 'init':
       case 'stopped':
-        clickAction = this.props.startNode;
+        clickAction = this.props.start;
         break;
 
       case 'started':
-        clickAction = this.props.stopNode;
+        clickAction = this.props.stop;
         break;
     }
 
@@ -78,6 +86,7 @@ class Status extends React.Component {
           <List>
             <NodeSettings />
             <RegistrySettings />
+            <ResolverSettings />
             <BootstrapSettings />
           </List>
         </Box>
@@ -98,8 +107,6 @@ class Status extends React.Component {
 }
 
 export default connect(
-  state => ({
-    state: state.runtime.state
-  }),
-  { startNode, stopNode }
+  state => ({ state: state.runtime.state }),
+  { start, stop }
 )(Status);

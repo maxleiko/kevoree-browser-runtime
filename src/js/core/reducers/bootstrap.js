@@ -1,43 +1,33 @@
 import {
-  CHANGE_VERSION
+  CHANGE_VERSION, BOOTSTRAP_STATE, UPDATE_OPTIONS
 } from '../actions';
 
 const initialState = {
   modules: {
     'kevoree-library': {
-      version: 'next',
-      downloaded: false,
-      downloading: false,
-      installed: false,
-      installing: false
+      version: undefined,
+      state: undefined,
+      options: []
     },
     'kevoree-validator': {
-      version: 'latest',
-      downloaded: false,
-      downloading: false,
-      installed: false,
-      installing: false
+      version: undefined,
+      state: undefined,
+      options: []
     },
     'kevoree-registry-api': {
-      version: 'latest',
-      downloaded: false,
-      downloading: false,
-      installed: false,
-      installing: false
+      version: undefined,
+      state: undefined,
+      options: []
     },
     'kevoree-kevscript': {
-      version: 'next',
-      downloaded: false,
-      downloading: false,
-      installed: false,
-      installing: false
+      version: undefined,
+      state: undefined,
+      options: []
     },
     'kevoree-core': {
-      version: 'next',
-      downloaded: false,
-      downloading: false,
-      installed: false,
-      installing: false
+      version: undefined,
+      state: undefined,
+      options: []
     }
   }
 };
@@ -52,6 +42,30 @@ export default (state = initialState, action) => {
           [action.name]: {
             ...state.modules[action.name],
             version: action.value
+          }
+        }
+      };
+
+    case UPDATE_OPTIONS:
+      return {
+        ...state,
+        modules: {
+          ...state.modules,
+          [action.name]: {
+            ...state.modules[action.name],
+            options: action.options
+          }
+        }
+      };
+
+    case BOOTSTRAP_STATE:
+      return {
+        ...state,
+        modules: {
+          ...state.modules,
+          [action.name]: {
+            ...state.modules[action.name],
+            state: action.value
           }
         }
       };

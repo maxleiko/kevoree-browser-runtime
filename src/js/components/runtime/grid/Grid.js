@@ -5,7 +5,7 @@ import ListPlaceholder from 'grommet-addons/components/ListPlaceholder';
 
 import PanelLayout from '../PanelLayout';
 
-const Grid = ({}, { runtime }) => (
+const Grid = ({}, { core }) => (
   <PanelLayout title="Grid" icon={<GridIcon />}>
     <Box>
       <ListPlaceholder unfilteredTotal={0} filteredTotal={0}
@@ -15,7 +15,7 @@ const Grid = ({}, { runtime }) => (
 );
 
 Grid.contextTypes = {
-  runtime: React.PropTypes.object
+  core: React.PropTypes.object
 };
 
 export default Grid;

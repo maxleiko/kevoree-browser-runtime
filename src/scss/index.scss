@@ -1,8 +1,10 @@
 @import '~grommet/scss/vanilla/index';
-
 $sidebar-xsmall-width: round($inuit-base-spacing-unit * 6) !default; // 144px
+$disabled-form: #e5e5e5;
 
-html, body, #content {
+#content,
+body,
+html {
   height: 100%;
 }
 
@@ -14,11 +16,6 @@ html, body, #content {
 
 .kevoree-list-item {
   background-color: #f5f5f5;
-
-  .grommetux-button:hover .grommetux-control-icon {
-    fill: white;
-    stroke: white;
-  }
 }
 
 .kevoree-btn:hover .grommetux-control-icon {
@@ -26,13 +23,71 @@ html, body, #content {
   stroke: white;
 }
 
-form.disabled {
+.disabled {
+  background-color: $disabled-form;
+  cursor: default;
+
   * {
-    background-color: #f5f5f5;
+    background-color: $disabled-form;
     cursor: default;
+  }
+}
+
+.kevoree-log-line {
+  font-family: monospace, sans-serif;
+  font-size: 14px;
+  $margin: 0 5px;
+
+  > .time {
+    padding: 4px 10px;
   }
 
-  .grommetux-form-field--text .grommetux-form-field__label {
-    cursor: default;
+  > .tag {
+    padding: 4px 10px;
+    width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
+
+  > .content {
+    padding: 4px 10px;
+    margin: $margin;
+  }
+}
+
+.kevoree-log-line.error {
+  background-color: #f2dede;
+  color: #a94442;
+}
+
+.kevoree-log-line.warn {
+  background-color: #fcf8e3;
+  color: #8a6d3b;
+}
+
+.kevoree-log-line.debug {
+  background-color: #d9edf7;
+  color: #31708f;
+}
+
+.kevoree-log-line.info {
+  background-color: #fff;
+  color: #555;
+}
+
+.kevoree-log-line.debug:hover {
+  background-color: #ebcccc;
+}
+
+.kevoree-log-line.warn:hover {
+  background-color: #faf2cc;
+}
+
+.kevoree-log-line.info:hover {
+  background-color: #f5f5f5;
+}
+
+.kevoree-log-line.debug:hover {
+  background-color: #c4e3f3;
 }

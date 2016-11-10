@@ -3,17 +3,17 @@ import { connect } from 'react-redux';
 
 import Form from 'grommet/components/Form';
 import FormField from 'grommet/components/FormField';
+import Paragraph from 'grommet/components/Paragraph';
 
 import ListItem from './ListItem';
 
 import { changeRegistry, STATES } from '../../../core/actions/runtime';
 
 const RegistrySettings = ({ registry, state, changeRegistry }) => {
-  let disabled = ['started', 'starting'].includes(state);
+  const disabled = ['starting'].includes(state);
 
   return (
-    <ListItem>
-      <strong>Registry endpoint</strong>
+    <ListItem control={
       <Form compact className={{ disabled }}>
         <FormField htmlFor="registry">
           <input
@@ -24,6 +24,11 @@ const RegistrySettings = ({ registry, state, changeRegistry }) => {
               disabled={disabled} />
         </FormField>
       </Form>
+    }>
+      <strong>Registry</strong>
+      <Paragraph margin="none" size="small">
+        Endpoint for <em>TypeDefinitions</em> & <em>DeployUnits</em> model resolving
+      </Paragraph>
     </ListItem>
   );
 };
