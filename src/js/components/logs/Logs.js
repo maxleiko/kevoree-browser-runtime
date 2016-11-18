@@ -1,21 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import List from 'grommet/components/List';
-import ListPlaceholder from 'grommet-addons/components/ListPlaceholder';
-
 import Cli from 'grommet/components/icons/base/Cli';
 
 import PanelLayout from '../PanelLayout';
-import Line from './Line';
+import Logger from './Logger';
 
 const Logs = ({ messages }) => (
   <PanelLayout title="Logs" icon={<Cli />}>
-    <List selectable>
-      <ListPlaceholder unfilteredTotal={messages.length} filteredTotal={messages.length}
-        emptyMessage="There is no logs at the moment." />
-      {messages.map(msg => <Line key={msg.id} {...msg} />)}
-    </List>
+    <Logger messages={messages} />
   </PanelLayout>
 );
 

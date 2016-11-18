@@ -9,8 +9,8 @@ import Box from 'grommet/components/Box';
 
 import ListItem from './ListItem';
 
-import { STATES } from '../../../core/actions/runtime';
-import { changeVersion } from '../../../core/actions/bootstrap';
+import { STATES } from '../../core/actions/runtime';
+import { changeVersion } from '../../core/actions/bootstrap';
 
 const renderOption = (option) => {
   if (option) {

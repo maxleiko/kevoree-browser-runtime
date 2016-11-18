@@ -7,7 +7,7 @@ import Paragraph from 'grommet/components/Paragraph';
 
 import ListItem from './ListItem';
 
-import { changeName, STATES } from '../../../core/actions/runtime';
+import { changeName, STATES } from '../../core/actions/runtime';
 
 const NodeSettings = ({ name, state, changeName }) => {
   const disabled = ['started', 'starting', 'stopping'].includes(state);

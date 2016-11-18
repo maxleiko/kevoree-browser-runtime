@@ -19,7 +19,7 @@ import RegistrySettings from './RegistrySettings';
 import ResolverSettings from './ResolverSettings';
 import BootstrapSettings from './BootstrapSettings';
 
-import { start, stop, STATES } from '../../../core/actions/runtime';
+import { start, stop, STATES } from '../../core/actions/runtime';
 
 const getIcon = (state) => {
   switch (state) {
@@ -82,7 +82,7 @@ class Status extends React.Component {
 
     return (
       <PanelLayout title="Status" icon={<Home />}>
-        <Box flex>
+        <Box flex="grow">
           <List>
             <NodeSettings />
             <RegistrySettings />

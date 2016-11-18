@@ -1,4 +1,6 @@
-import {ADD_LOG} from '.';
+import {
+  ADD_LOG
+} from '.';
 
 export function addLog(tag, message, level = 'INFO', time = Date.now()) {
   return {

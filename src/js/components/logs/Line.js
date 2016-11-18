@@ -33,4 +33,11 @@ const Line = (msg) => (
   </ListItem>
 );
 
+Line.propTypes = {
+  level: React.PropTypes.string.isRequired,
+  time: React.PropTypes.number.isRequired,
+  tag: React.PropTypes.string.isRequired,
+  content: React.PropTypes.string.isRequired
+};
+
 export default Line;

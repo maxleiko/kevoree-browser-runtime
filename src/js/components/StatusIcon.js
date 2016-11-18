@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Status from 'grommet/components/icons/Status';
 
-import { STATES } from '../../core/actions/runtime';
+import { STATES } from '../core/actions/runtime';
 
 const StatusIcon = ({ state, size }) => {
   let value = 'unknown';

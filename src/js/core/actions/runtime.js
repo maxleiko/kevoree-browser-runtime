@@ -1,17 +1,21 @@
-/* globals KevoreeCore, KevoreeKevscript */
-
 import {
   CHANGE_NAME, CHANGE_STATE, TOGGLE_DEV_MODE, ERROR, CHANGE_REGISTRY,
   CHANGE_RESOLVER
 } from '.';
 import { addLog } from './logs';
+import { updateScript } from './kevscript';
 import { bootstrap } from './bootstrap';
 import loggerFactory from '../kevoree/logger';
 import bootstrapperFactory from '../kevoree/bootstrapper';
 import updateRegistry from '../kevoree/update-registry';
+import kevsTpl from '../kevoree/kevs-tpl';
 
 export function changeName(name) {
-  return { type: CHANGE_NAME, name };
+  return (dispatch, getState) => {
+    dispatch({ type: CHANGE_NAME, name });
+    dispatch(
+      updateScript(kevsTpl(getState().kevscript.defaultScript, { name })));
+  };
 }
 
 export function start() {
@@ -22,10 +26,12 @@ export function start() {
       .then(() => {
         return new Promise((resolve, reject) => {
           const logger = loggerFactory(dispatch);
-          const kevs = new KevoreeKevscript(logger);
-          const core = new KevoreeCore(kevs, '_fake_', logger);
+          const kevs = new global.KevoreeKevscript(logger);
+          const core = new global.KevoreeCore(kevs, '_fake_', logger);
 
           core.setBootstrapper(bootstrapperFactory(getState, logger));
+
+          global.kCore = core;
 
           core.on('error', (err) => {
             dispatch({ type: ERROR, error: err });

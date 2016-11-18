@@ -8,7 +8,7 @@ import Paragraph from 'grommet/components/Paragraph';
 
 import ListItem from './ListItem';
 
-import { changeResolver, toggleDevMode, STATES } from '../../../core/actions/runtime';
+import { changeResolver, toggleDevMode, STATES } from '../../core/actions/runtime';
 
 const ResolverSettings = ({ resolver, devMode, state, changeResolver, toggleDevMode }) => {
   const disabled = ['starting'].includes(state);
@@ -24,8 +24,8 @@ const ResolverSettings = ({ resolver, devMode, state, changeResolver, toggleDevM
               onChange={e => changeResolver(e.target.value)}
               disabled={disabled} />
         </FormField>
-        <FormField htmlFor="devMode">
-          <CheckBox id="devMode" label="DevMode" checked={devMode} toggle onChange={toggleDevMode} />
+        <FormField htmlFor="devMode" style={{ padding: '0 25px' }}>
+          <CheckBox id="devMode" label={<span style={{ cursor: 'pointer' }}>DevMode</span>} checked={devMode} toggle onChange={toggleDevMode} />
         </FormField>
       </Form>
     }>

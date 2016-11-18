@@ -44,6 +44,7 @@ class Runtime extends React.Component {
             </Header>
             <Menu primary={true}>
               <Anchor path="/status" label="Status" icon={<StatusIcon />} />
+              <Anchor path="/kevscript" label="KevScript" />
               <Anchor path="/logs" label="Logs" />
               <Anchor path="/grid" label="Grid" />
               <Anchor path="/about" label="About" />

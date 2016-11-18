@@ -2,6 +2,7 @@ import {
   RUNTIME_START, RUNTIME_STOP, CHANGE_NAME, CHANGE_STATE, TOGGLE_DEV_MODE,
   ERROR, CHANGE_RESOLVER, CHANGE_REGISTRY
 } from '../actions';
+
 import { id as randomId } from '../utils/random';
 
 const initialState = {

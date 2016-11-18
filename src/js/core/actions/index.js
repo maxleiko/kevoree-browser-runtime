@@ -14,3 +14,4 @@ export const BOOTSTRAP_STATE = 'BOOTSTRAP_STATE';
 export const UPDATE_OPTIONS = 'UPDATE_OPTIONS';
 export const TOGGLE_DEV_MODE = 'TOGGLE_DEV_MODE';
 export const ERROR = 'ERROR';
+export const UPDATE_KEVSCRIPT = 'UPDATE_KEVSCRIPT';

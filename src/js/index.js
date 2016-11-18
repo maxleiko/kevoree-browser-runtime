@@ -7,13 +7,16 @@ import { Router, Route, Redirect, IndexRedirect, browserHistory } from 'react-ro
 import TinyConf from 'tiny-conf';
 
 import store from './core/store';
-import Runtime from './components/runtime/Runtime';
-import Status from './components/runtime/status/Status';
-import Logs from './components/runtime/logs/Logs';
-import Grid from './components/runtime/grid/Grid';
-import About from './components/runtime/about/About';
+import Runtime from './components/Runtime';
+import Status from './components/status/Status';
+import KevScript from './components/kevscript/KevScript';
+import Logs from './components/logs/Logs';
+import Grid from './components/grid/Grid';
+import About from './components/about/About';
 
+import kevsTpl from './core/kevoree/kevs-tpl';
 import { getOptions } from './core/actions/bootstrap';
+import { updateScript } from './core/actions/kevscript';
 import updateRegistry from './core/kevoree/update-registry';
 
 // get latest versions from npm registry for bootstrap deps
@@ -23,12 +26,19 @@ store.dispatch(getOptions());
 global.TinyConf = TinyConf;
 updateRegistry(store.getState().runtime.registry);
 
+// update defaultScript with generated random name
+store.dispatch(updateScript(kevsTpl(
+  store.getState().kevscript.defaultScript,
+  { name: store.getState().runtime.name }
+)));
+
 ReactDOM.render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={Runtime}>
         <IndexRedirect to="status" />
         <Route path="status" component={Status} />
+        <Route path="kevscript" component={KevScript} />
         <Route path="logs" component={Logs} />
         <Route path="grid" component={Grid} />
         <Route path="about" component={About} />

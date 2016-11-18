@@ -7,7 +7,7 @@ import Paragraph from 'grommet/components/Paragraph';
 
 import ListItem from './ListItem';
 
-import { changeRegistry, STATES } from '../../../core/actions/runtime';
+import { changeRegistry, STATES } from '../../core/actions/runtime';
 
 const RegistrySettings = ({ registry, state, changeRegistry }) => {
   const disabled = ['starting'].includes(state);
